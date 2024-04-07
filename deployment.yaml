@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ceb-app-service
+spec:
+  selector:
+    app: ceb-app
+  ports:
+    - protocol: "TCP"
+      port: 8088
+      targetPort: 8088
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ceb-app
+spec:
+  selector:
+    matchLabels:
+      app: ceb-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: ceb-app
+    spec:
+      containers:
+        - name: ceb-app
+          image: docker.io/chanaka1200/ceb-app:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8088
