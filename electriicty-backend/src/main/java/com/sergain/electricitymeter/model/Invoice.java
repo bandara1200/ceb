@@ -1,11 +1,9 @@
 package com.sergain.electricitymeter.model;
 
 import com.sergain.electricitymeter.audit.Auditable;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter

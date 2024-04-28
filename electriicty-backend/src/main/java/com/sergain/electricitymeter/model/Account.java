@@ -2,11 +2,11 @@ package com.sergain.electricitymeter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sergain.electricitymeter.audit.Auditable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
