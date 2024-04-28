@@ -1,0 +1,462 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8088
+  description: Generated server url
+paths:
+  /api/v1/meter-readings:
+    get:
+      tags:
+      - meter-reader-controller
+      operationId: getUnitsByAccount
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_no
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit'
+    put:
+      tags:
+      - meter-reader-controller
+      operationId: updateUnit
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Unit'
+        required: true
+      responses:
+        "204":
+          description: No Content
+    post:
+      tags:
+      - meter-reader-controller
+      operationId: saveUnit
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Unit'
+        required: true
+      responses:
+        "201":
+          description: Created
+  /api/v1/account:
+    get:
+      tags:
+      - account-controller
+      operationId: getAccount
+      parameters:
+      - name: mobile_number
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: account_number
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Account'
+    put:
+      tags:
+      - account-controller
+      operationId: updateProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      responses:
+        "200":
+          description: OK
+    post:
+      tags:
+      - account-controller
+      operationId: saveAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/v1/users:
+    get:
+      tags:
+      - user-management-controller
+      operationId: getUserByUserName
+      parameters:
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+    post:
+      tags:
+      - user-management-controller
+      operationId: saveUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/v1/consumer/payments:
+    post:
+      tags:
+      - consumer-controller
+      operationId: saveInvoice
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/v1/controller/readings:
+    get:
+      tags:
+      - financial-controller
+      operationId: getUnits
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_no
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnitsWrapper'
+  /api/v1/controller/invoices:
+    get:
+      tags:
+      - financial-controller
+      operationId: getInvoice
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_number
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InvoiceWrapper'
+  /api/v1/consumer/invoices:
+    get:
+      tags:
+      - consumer-controller
+      operationId: getInvoices
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_number
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invoice'
+  /api/v1/consumer/accounts:
+    get:
+      tags:
+      - consumer-controller
+      operationId: getAccountByMobile
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+components:
+  schemas:
+    Account:
+      required:
+      - consumerDistrict
+      - consumerEmail
+      - consumerFirstName
+      - consumerLastName
+      - consumerMobile
+      - consumerNIC
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        accountNumber:
+          type: string
+        consumerFirstName:
+          type: string
+        consumerLastName:
+          type: string
+        consumerNIC:
+          type: string
+        consumerAddress:
+          type: string
+        consumerDistrict:
+          type: string
+        consumerEmail:
+          type: string
+        consumerMobile:
+          type: string
+        outstandAmount:
+          type: number
+          format: double
+        username:
+          type: string
+    Unit:
+      required:
+      - month
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        month:
+          type: string
+        unit:
+          type: integer
+          format: int32
+        amount:
+          type: number
+          format: double
+        unitAccounts:
+          $ref: '#/components/schemas/Account'
+        meterReader:
+          $ref: '#/components/schemas/User'
+    User:
+      required:
+      - email
+      - username
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        roleName:
+          type: string
+    Invoice:
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        transactionId:
+          type: string
+        amount:
+          type: number
+          format: double
+        method:
+          type: string
+        invoiceAccounts:
+          $ref: '#/components/schemas/Account'
+        payee:
+          $ref: '#/components/schemas/User'
+    UnitsWrapper:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        unitAccounts:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        month:
+          type: string
+        unit:
+          type: integer
+          format: int32
+        amount:
+          type: number
+          format: double
+        lastModifiedDate:
+          type: string
+          format: date-time
+    InvoiceWrapper:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        transactionId:
+          type: string
+        invoiceAccounts:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        amount:
+          type: number
+          format: double
+        method:
+          type: string
+        payeeFirstName:
+          type: string
+        payeeLastName:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
