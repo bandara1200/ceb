@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8088
+  description: Generated server url
+paths:
+  /api/v1/consumer/payments:
+    post:
+      tags:
+      - consumer-controller
+      operationId: saveInvoice
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /api/v1/consumer/invoices:
+    get:
+      tags:
+      - consumer-controller
+      operationId: getInvoices
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_number
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invoice'
+  /api/v1/consumer/accounts:
+    get:
+      tags:
+      - consumer-controller
+      operationId: getAccountByMobile
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+components:
+  schemas:
+    Account:
+      required:
+      - consumerDistrict
+      - consumerEmail
+      - consumerFirstName
+      - consumerLastName
+      - consumerMobile
+      - consumerNIC
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        accountNumber:
+          type: string
+        consumerFirstName:
+          type: string
+        consumerLastName:
+          type: string
+        consumerNIC:
+          type: string
+        consumerAddress:
+          type: string
+        consumerDistrict:
+          type: string
+        consumerEmail:
+          type: string
+        consumerMobile:
+          type: string
+        outstandAmount:
+          type: number
+          format: double
+        username:
+          type: string
+    User:
+      required:
+      - email
+      - username
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        roleName:
+          type: string
+    Invoice:
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        transactionId:
+          type: string
+        amount:
+          type: number
+          format: double
+        method:
+          type: string
+        invoiceAccounts:
+          $ref: '#/components/schemas/Account'
+        payee:
+          $ref: '#/components/schemas/User'

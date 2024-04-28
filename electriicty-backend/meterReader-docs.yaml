@@ -1,0 +1,176 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8088
+  description: Generated server url
+paths:
+  /api/v1/meter-readings:
+    get:
+      tags:
+      - meter-reader-controller
+      operationId: getUnitsByAccount
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_no
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit'
+    put:
+      tags:
+      - meter-reader-controller
+      operationId: updateUnit
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Unit'
+        required: true
+      responses:
+        "204":
+          description: No Content
+    post:
+      tags:
+      - meter-reader-controller
+      operationId: saveUnit
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Unit'
+        required: true
+      responses:
+        "201":
+          description: Created
+components:
+  schemas:
+    Account:
+      required:
+      - consumerDistrict
+      - consumerEmail
+      - consumerFirstName
+      - consumerLastName
+      - consumerMobile
+      - consumerNIC
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        accountNumber:
+          type: string
+        consumerFirstName:
+          type: string
+        consumerLastName:
+          type: string
+        consumerNIC:
+          type: string
+        consumerAddress:
+          type: string
+        consumerDistrict:
+          type: string
+        consumerEmail:
+          type: string
+        consumerMobile:
+          type: string
+        outstandAmount:
+          type: number
+          format: double
+        username:
+          type: string
+    Unit:
+      required:
+      - month
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        month:
+          type: string
+        unit:
+          type: integer
+          format: int32
+        amount:
+          type: number
+          format: double
+        unitAccounts:
+          $ref: '#/components/schemas/Account'
+        meterReader:
+          $ref: '#/components/schemas/User'
+    User:
+      required:
+      - email
+      - username
+      type: object
+      properties:
+        createdBy:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        lastModifiedBy:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        roleName:
+          type: string

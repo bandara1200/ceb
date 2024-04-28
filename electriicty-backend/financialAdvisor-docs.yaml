@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8088
+  description: Generated server url
+paths:
+  /api/v1/controller/readings:
+    get:
+      tags:
+      - financial-controller
+      operationId: getUnits
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_no
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnitsWrapper'
+  /api/v1/controller/invoices:
+    get:
+      tags:
+      - financial-controller
+      operationId: getInvoice
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: account_number
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InvoiceWrapper'
+components:
+  schemas:
+    UnitsWrapper:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        unitAccounts:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        month:
+          type: string
+        unit:
+          type: integer
+          format: int32
+        amount:
+          type: number
+          format: double
+        lastModifiedDate:
+          type: string
+          format: date-time
+    InvoiceWrapper:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        transactionId:
+          type: string
+        invoiceAccounts:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        amount:
+          type: number
+          format: double
+        method:
+          type: string
+        payeeFirstName:
+          type: string
+        payeeLastName:
+          type: string
+        lastModifiedDate:
+          type: string
+          format: date-time
