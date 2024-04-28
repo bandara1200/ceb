@@ -11,7 +11,7 @@
 	<groupId>com.sergain</groupId>
 	<artifactId>electricity-meter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>electricity-meter</name>
 	<description>reading electricity meter and generate bill amount</description>
 	<properties>
