@@ -1,6 +1,6 @@
 [package]
 org = "wso2"
-name = "CEB Sheduled mails"
+name = "ceb.sheduled.mails"
 version = "0.1.0"
 distribution = "2024.4.30"
 
