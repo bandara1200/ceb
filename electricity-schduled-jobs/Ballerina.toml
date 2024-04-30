@@ -1,0 +1,8 @@
+[package]
+org = "wso2"
+name = "CEB Sheduled mails"
+version = "0.1.0"
+distribution = "2024.4.30"
+
+[build-options]
+observabilityIncluded = true
